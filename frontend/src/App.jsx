@@ -1,9 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
 import { AuthProvider } from './context/AuthContext';
+import Header from './components/Header';
+import Home from './pages/Home';
+import About from './pages/About';
+import JobList from '@/pages/JobList';
+import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import JobList from '@/pages/JobList';
+import Forgot from './pages/Forgot';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -11,14 +16,17 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Navbar />
+        <Header /> {/* single header for entire app */}
         <Routes>
-          <Route path="/" element={<JobList />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/jobs" element={<JobList />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot" element={<Forgot />} />
+          <Route path="/reset" element={<ResetPassword />} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/joblist" element={<JobList />} />
-
         </Routes>
       </BrowserRouter>
     </AuthProvider>

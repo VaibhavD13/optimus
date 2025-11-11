@@ -9,7 +9,11 @@ const UserSchema = new Schema({
   Role: { type: String, enum: ['Applicant','Employer','Admin'], required: true },
   CompanyId: { type: Schema.Types.ObjectId, ref: 'Company' },
   Profile: { type: Schema.Types.Mixed },
-  LastLoginAt: { type: Date }
+  LastLoginAt: { type: Date },
+
+  // reset password
+  ResetToken: { type: String },
+  ResetExpires: { type: Date }
 }, {
   timestamps: { createdAt: 'CreatedAt', updatedAt: 'UpdatedAt' }
 });

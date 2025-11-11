@@ -1,0 +1,184 @@
+/* header.css - styles for the SaaS header (desktop + mobile) */
+
+/* container */
+.saas-header {
+  width: 100%;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: transparent;
+  padding: 8px 18px;
+  backdrop-filter: blur(6px);
+}
+
+/* center content */
+.saas-header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* left brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 700;
+  font-size: 18px;
+}
+.brand-logo {
+  display:inline-flex;
+  width:34px;
+  height:34px;
+  align-items:center;
+  justify-content:center;
+  border-radius:6px;
+  background: linear-gradient(135deg, rgba(108,92,231,0.12), rgba(108,92,231,0.04));
+  color: var(--accent);
+  font-size:18px;
+}
+.brand-text { letter-spacing: 0.2px; }
+
+/* nav */
+.nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.nav-link {
+  text-decoration: none;
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.nav-link:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+/* auth links */
+.auth-link {
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* right side */
+.right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* theme toggle */
+.theme-toggle {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: transparent;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* user menu */
+.user-menu {
+  position: relative;
+}
+.avatar-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.avatar {
+  display: inline-flex;
+  width:36px;
+  height:36px;
+  align-items:center;
+  justify-content:center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(108,92,231,0.12), rgba(108,92,231,0.04));
+  color: var(--accent);
+  font-weight:700;
+}
+
+/* dropdown (simple appear on hover/focus for now) */
+.user-dropdown {
+  min-width: 180px;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+  padding: 8px;
+  display: none;
+  z-index: 60;
+}
+.user-menu:hover .user-dropdown,
+.user-menu:focus-within .user-dropdown {
+  display: block;
+}
+
+.user-info { padding: 8px 10px; border-bottom: 1px solid rgba(0,0,0,0.04); margin-bottom: 6px; }
+.muted { color: var(--muted); font-size: 13px; }
+
+.dropdown-item {
+  display: block;
+  padding: 8px 10px;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.dropdown-item:hover { background: rgba(0,0,0,0.04); }
+.dropdown-item.danger { color: #c53030; border-top: 1px solid rgba(0,0,0,0.04); }
+
+/* hamburger (mobile) */
+.hamburger {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+.hamburger span {
+  display: block;
+  height: 2px;
+  width: 18px;
+  background: var(--text);
+  margin: 4px auto;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+.hamburger.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.is-open span:nth-child(2) { opacity: 0; }
+.hamburger.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* responsive: collapse nav into mobile menu */
+@media (max-width: 920px) {
+  .nav { 
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    background: var(--bg);
+    height: calc(100vh - var(--header-height));
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 12px;
+    transform: translateX(110%);
+    transition: transform 180ms ease;
+    box-shadow: var(--card-shadow);
+  }
+  .nav.open { transform: translateX(0%); }
+  .hamburger { display: inline-block; }
+  .nav-link { padding: 10px; }
+}
