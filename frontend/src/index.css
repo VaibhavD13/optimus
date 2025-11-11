@@ -4,3 +4,55 @@
 
 /* small base styles */
 body { @apply bg-gray-50 text-slate-800; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+
+/* bottom of src/index.css */
+html, body, #root {
+  height: 100%;
+  background: linear-gradient(180deg, #e6eef6 0%, #dbe6ef 100%); /* optional subtle backdrop like ref */
+}
+
+/* keep main max width center card look */
+.main-card {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* src/index.css (append at end) */
+
+/* Smooth width transition for sidebars */
+.transition-width {
+  transition: width 300ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* When labels are hidden, avoid interaction and collapse the label area */
+.sidebar-label {
+  transition: opacity 200ms ease, transform 200ms ease;
+  transform-origin: left center;
+}
+
+/* small improvement for tooltip fade */
+.tooltip-fade {
+  transition: opacity 180ms ease, transform 180ms ease;
+  transform-origin: left center;
+}
+
+/* Hide scrollbar by default, show only when scrolling */
+.no-scrollbar {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: transparent transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.no-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}

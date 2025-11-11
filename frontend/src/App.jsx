@@ -11,6 +11,7 @@ import Forgot from './pages/Forgot';
 import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import EmployerDashboard from './pages/EmployerDashboard';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/forgot" element={<Forgot />} />
           <Route path="/reset" element={<ResetPassword />} />
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/employer" element={<ProtectedRoute><EmployerDashboard /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
