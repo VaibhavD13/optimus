@@ -13,10 +13,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 /**
- * RoleRightPanel — polished with scrollable sections
- * - Animated width
- * - Collapsed tooltip mode
- * - Hidden scrollbar (only visible while scrolling)
+ * RoleRightPanel — polished with scrollable sections and accessible collapsed tooltips
  */
 export default function RoleRightPanel({ role = 'employer', collapsed = false }) {
   // Mock data
@@ -31,6 +28,14 @@ export default function RoleRightPanel({ role = 'employer', collapsed = false })
   const expandedWidth = '20rem'; // 320px
   const collapsedWidth = '4rem'; // 64px
 
+  // items shown in collapsed column with icons + tooltip titles (left side tooltips)
+  const collapsedItems = [
+    { id: 'notifs', title: 'Notifications', icon: BellIcon },
+    { id: 'shortlist', title: 'Shortlists', icon: StarIcon },
+    { id: 'contacts', title: 'Contacts', icon: UserGroupIcon },
+    { id: 'kpis', title: 'Quick KPIs', icon: ChartBarIcon },
+  ];
+
   return (
     <aside
       className="bg-white border-l min-h-screen hidden md:flex flex-col transition-width shadow-sm"
@@ -38,23 +43,23 @@ export default function RoleRightPanel({ role = 'employer', collapsed = false })
     >
       {/* Collapsed Mode */}
       {collapsed ? (
-        <div className="flex flex-col items-center py-4 gap-3 w-full">
-          {[
-            { id: 'notifs', title: 'Notifications', icon: BellIcon },
-            { id: 'shortlist', title: 'Shortlists', icon: StarIcon },
-            { id: 'contacts', title: 'Contacts', icon: UserGroupIcon },
-            { id: 'kpis', title: 'Quick KPIs', icon: ChartBarIcon },
-          ].map((it) => {
+        <div className="flex flex-col items-end py-3 gap-3 w-full pr-2">
+          {collapsedItems.map((it) => {
             const Icon = it.icon;
             return (
-              <div key={it.id} className="relative group w-full flex justify-center">
+              <div key={it.id} className="relative group w-full flex justify-end">
                 <button
-                  className="p-2 rounded-md flex items-center justify-center hover:bg-gray-100 text-slate-600"
+                  className="w-10 h-10 p-2 rounded-md flex items-center justify-center hover:bg-gray-100 text-slate-600 focus:outline-none focus:ring-2 focus:ring-optimus-blue-200"
                   aria-label={it.title}
                 >
                   <Icon className="h-5 w-5" />
                 </button>
-                <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1 rounded-md bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-lg">
+
+                {/* tooltip appears to the left (since panel is on right) */}
+                <div
+                  className="absolute right-full mr-2 top-1/2 -translate-y-1/2 px-3 py-1 rounded-md bg-gray-800 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 pointer-events-none shadow-lg z-50"
+                  role="tooltip"
+                >
                   {it.title}
                 </div>
               </div>

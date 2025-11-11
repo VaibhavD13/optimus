@@ -1,97 +1,79 @@
-// frontend/src/ui/RoleSidebar.jsx
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { MENUS } from "../config/menu";
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { MENUS } from '../config/menu';
 
-/**
- * Animated RoleSidebar (brand removed)
- * props:
- *  - role: 'employer' | 'admin' | 'applicant'
- *  - collapsed: boolean (icon-only narrow mode)
- *
- * Uses inline width style plus .transition-width for smooth slide animation.
- * Tooltips still appear for each icon when collapsed.
- */
-export default function RoleSidebar({ role = "employer", collapsed = false }) {
-  const menu = MENUS[role] || MENUS["applicant"];
+function MenuItem({ item, active, collapsed }) {
+  const Icon = item.icon;
+  return (
+    <div className="relative group">
+      <Link
+        to={item.to}
+        className={`flex items-center gap-3 p-2 rounded-xl transition-all duration-200 ${
+          active ? 'bg-optimus-blue-50' : 'hover:bg-gray-50'
+        }`}
+      >
+        <div
+          className={`p-2 rounded-lg ${
+            active
+              ? 'bg-optimus-blue-100 text-optimus-blue-600'
+              : 'bg-white text-slate-600'
+          } shadow-sm flex items-center justify-center`}
+        >
+          <Icon className="h-5 w-5" />
+        </div>
+
+        {/* Show label normally when not collapsed */}
+        {!collapsed && (
+          <span className="text-sm text-slate-700 truncate">{item.title}</span>
+        )}
+      </Link>
+
+      {/* Tooltip (visible only when collapsed) */}
+      {collapsed && (
+        <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 px-2.5 py-1 rounded-md bg-gray-900 text-white text-xs font-medium opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity duration-200 z-50 shadow-md">
+          {item.title}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function RoleSidebar({ role = 'employer', collapsed = false }) {
   const loc = useLocation();
-
-  // widths (adjust these if you want smaller/larger sidebars)
-  const expandedWidth = "15rem"; // 16rem = 256px
-  const collapsedWidth = "4rem"; // 4rem = 64px
+  const menu = MENUS[role] || MENUS['applicant'];
 
   return (
-    <aside
-      className="bg-white border-r min-h-screen py-4 hidden md:flex flex-col transition-width"
-      style={{ width: collapsed ? collapsedWidth : expandedWidth }}
-      aria-hidden={false}
+    <div
+      className={`h-full flex flex-col px-2 py-3 ${
+        collapsed ? 'items-center' : ''
+      }`}
     >
-      <div className="px-2">
-        {/* NAV - no branding at top */}
-        <nav className="flex-1 flex flex-col gap-1">
-          {menu.map((item) => {
-            const Icon = item.icon;
-            const active = loc.pathname === item.to;
+      {/* Menu items */}
+      <nav
+        className={`flex-1 ${
+          collapsed ? 'space-y-2' : 'space-y-1'
+        } flex flex-col items-stretch`}
+      >
+        {menu.map((it) => {
+          const active = loc.pathname === it.to;
+          return (
+            <MenuItem
+              key={it.id}
+              item={it}
+              active={active}
+              collapsed={collapsed}
+            />
+          );
+        })}
+      </nav>
 
-            return (
-              <div key={item.id} className="relative group">
-                <Link
-                  to={item.to}
-                  className={`flex items-center gap-3 p-2 rounded-md transition-colors ${
-                    active ? "bg-optimus-blue-50" : "hover:bg-gray-50"
-                  }`}
-                >
-                  <div
-                    className={`p-2 rounded-md shadow-sm flex items-center justify-center ${
-                      active
-                        ? "bg-optimus-blue-100 text-optimus-blue-600"
-                        : "bg-white text-slate-600"
-                    }`}
-                  >
-                    <Icon className="h-5 w-5" />
-                  </div>
-
-                  {/* label: fades out / shifts when collapsed */}
-                  <div
-                    className="sidebar-label text-sm text-slate-700 overflow-hidden"
-                    style={{
-                      opacity: collapsed ? 0 : 1,
-                      transform: collapsed ? "translateX(-6px)" : "translateX(0)",
-                      width: collapsed ? 0 : "auto",
-                      whiteSpace: "nowrap",
-                    }}
-                    aria-hidden={collapsed}
-                  >
-                    {item.title}
-                  </div>
-                </Link>
-
-                {/* Tooltip only visible in collapsed mode */}
-                {collapsed && (
-                  <div
-                    className="absolute left-full top-1/2 -translate-y-1/2 px-3 py-1 rounded-md bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 tooltip-fade pointer-events-none shadow-lg"
-                    style={{ transform: "translateY(-50%)" }}
-                  >
-                    {item.title}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </nav>
-
-        {/* bottom area: workspace info removed when collapsed; no branding text */}
-        <div className="mt-auto pt-4 border-t text-xs text-slate-400 px-2">
-          <div
-            className="mb-1"
-            style={{ opacity: collapsed ? 0 : 1, transition: "opacity 180ms" }}
-          >
-            {/* Optionally keep the label; here we keep a generic "Workspace" when expanded */}
-            Workspace
-          </div>
-          {/* removed company name to avoid duplicate branding */}
+      {/* Bottom info (workspace) — still optional */}
+      {!collapsed && (
+        <div className="mt-6 pt-4 border-t text-xs text-slate-400">
+          <div className="mb-1">Workspace</div>
+          <div className="text-sm text-slate-600">Optimus Co.</div>
         </div>
-      </div>
-    </aside>
+      )}
+    </div>
   );
 }

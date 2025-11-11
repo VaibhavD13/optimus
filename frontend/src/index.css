@@ -56,3 +56,33 @@ html, body, #root {
 .no-scrollbar:hover::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
 }
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* 0.5s animations */
+.animate-slideInRight {
+  animation: slideInRight 0.5s ease forwards;
+}
+.animate-slideOutRight {
+  animation: slideOutRight 0.5s ease forwards;
+}
